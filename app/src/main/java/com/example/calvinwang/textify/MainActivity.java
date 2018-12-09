@@ -50,8 +50,36 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void detect(View view) {
+        if (bitmap == null) {
+            Toast.makeText(getApplicationContext(), "Bitmap is null", Toast.LENGTH_LONG).show();
+        } else {
+            FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(bitmap);
+            FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
+            firebaseVisionTextDetector.detectInImage(firebaseVisionImage)
+                    .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                        @Override
+                        public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                            process_text(firebaseVisionText);
+                        }
+                    });
+        }
+    }
 
-
+    private void process_text(FirebaseVisionText firebaseVisionText) {
+        List<FirebaseVisionText.Block> blocks = firebaseVisionText.getBlocks();
+        if (blocks.size() == 0) {
+            Toast.makeText(getApplicationContext(), "no textd detected", Toast.LENGTH_LONG).show();
+        }
+        else {
+            for (FirebaseVisionText.Block block: firebaseVisionText.getBlocks()) {
+                String text = block.getText();
+                textView = findViewById(R.id.textView);
+                textView.setText(text);
+                imageView.setVisibility(View.GONE);
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
