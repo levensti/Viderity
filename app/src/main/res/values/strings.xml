@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TEXTIFY</string>
+    <string name="camera">camera</string>
+    <string name="gallery">gallery</string>
+    <string name="read">read</string>
+</resources>

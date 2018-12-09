@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "972679312769",
+    "firebase_url": "https://ardent-oven-225001.firebaseio.com",
+    "project_id": "ardent-oven-225001",
+    "storage_bucket": "ardent-oven-225001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972679312769:android:e3a1f62343f876f0",
+        "android_client_info": {
+          "package_name": "com.example.calvinwang.textify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972679312769-cpr1aiq1klqlaj3s0j72qomvftbrkraj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfUUPMFT7d89pEjaSpIa7yGZpGbqOS7jU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
