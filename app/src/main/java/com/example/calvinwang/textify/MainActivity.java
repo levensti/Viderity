@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,20 +36,78 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textView;
 
+    private TextToSpeech mTTs;
+
+    private SeekBar mSeekBarPitch;
+
+    private SeekBar mSeekBarSpeed;
+
+    private Button mButtonSpeak;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mButtonSpeak = findViewById(R.id.buttonSpeak);
+        mTTs = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = mTTs.setLanguage(Locale.ENGLISH);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    } else {
+                        mButtonSpeak.setEnabled(true);
+                    }
+                } else {
+                    Log.e("TTS", "Initialization failed.");
+                }
+
+            }
+        });
+        textView = findViewById(R.id.textView);
+        mSeekBarPitch = findViewById(R.id.seekBarPitch);
+        mSeekBarSpeed = findViewById(R.id.seekBarSpeed);
+        mButtonSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speak();
+            }
+        });
     }
-//aaa
+
+    private void speak() {
+        String text = textView.getText().toString();
+        float pitch = (float) mSeekBarPitch.getProgress() / 50;
+        if (pitch <= 0) {
+            pitch = 0.1f;
+        }
+        float speed = (float) mSeekBarSpeed.getProgress() / 50;
+        if (speed <= 0) {
+            speed = 0.1f;
+        }
+        mTTs.setPitch(pitch);
+        mTTs.setSpeechRate(speed);
+        mTTs.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mTTs != null) {
+            mTTs.stop();
+            mTTs.shutdown();
+        }
+        super.onDestroy();
+    }
 
     public void openGallery(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, 1);
     }
 
-    public void takepicture(View view) {
+    public void takePicture(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
     }
@@ -69,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
     private void process_text(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.Block> blocks = firebaseVisionText.getBlocks();
         if (blocks.size() == 0) {
-            Toast.makeText(getApplicationContext(), "no textd detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_LONG).show();
+            textView.toString();
         }
         else {
             for (FirebaseVisionText.Block block: firebaseVisionText.getBlocks()) {
@@ -97,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (requestCode == 0) {
             bitmap = (Bitmap)data.getExtras().get("data");
+            //imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(bitmap);
 
         }
