@@ -42,14 +42,15 @@
         android:layout_height="68dp"
         android:layout_marginTop="443dp"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/camera"
+            android:id="@+id/btnCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="takepicture"
+            android:onClick="takePicture"
             android:text="@string/camera" />
 
         <Button
