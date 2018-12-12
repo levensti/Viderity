@@ -35,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button camera = findViewById(R.id.camera);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-//aaa
 
     public void openGallery(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         List<FirebaseVisionText.Block> blocks = firebaseVisionText.getBlocks();
         if (blocks.size() == 0) {
             Toast.makeText(getApplicationContext(), "no textd detected", Toast.LENGTH_LONG).show();
+            imageView.setVisibility(View.INVISIBLE);
         }
         else {
             for (FirebaseVisionText.Block block: firebaseVisionText.getBlocks()) {
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setVisibility(View.GONE);
             }
         }
+
     }
 
     @Override
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (requestCode == 0) {
             bitmap = (Bitmap)data.getExtras().get("data");
+            imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(bitmap);
 
         }
