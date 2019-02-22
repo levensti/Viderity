@@ -1,13 +1,13 @@
 # Viderity
 ## General Project Details
-∙ Implemented the Google Vision API (FireBase ML Kit) to extract text from an image (either from gallery or camera).
+∙ Implemented the Google Vision API (FireBase ML Kit) to extract text from an image (either from gallery or camera).\
 ∙ Utilized Android Studio's text-to-speech feature to read the extracted text aloud.
 ## API Choice Considerations
-∙ When looking for an API, it was important for the API to have documentation for Java developers.&nbsp 
+∙ When looking for an API, it was important for the API to have documentation for Java developers.\
 ∙ Although I'd used OpenCV for image processing in the past (and considered Tesseract briefly), they weren't as supported for the Java language than they are for Python.
 ## Choice of Functionality / Product Inspiration
-∙ The inspiration of Viderity came from me wanting to try out Google's Vision API.&nbsp
-∙ Going forward from this, I thought it would be interesting to make a product that makes it easier for blind students to learn.&nbsp
+∙ The inspiration of Viderity came from me wanting to try out Google's Vision API.\
+∙ Going forward from this, I thought it would be interesting to make a product that makes it easier for blind students to learn.\
 ∙ Trying out Android Studio for a bit, it became clear that the built-in text-to-speech capability would make an excellent addition to Viderity.&nbsp
 ## Technical Challenges
 ∙ When loading images into the VM gallery, it was important to have images be loaded in a Bitmap format rather than PNG, VEC, etc.&nbsp
